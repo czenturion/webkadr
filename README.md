@@ -14,7 +14,8 @@ npm run dev
 ```
 
 Сборка: `npm run build`, результат в `out/`. Посмотреть: `npx serve out`.
-Линтер: `npm run lint`.
+Перед коммитом: `npm run check` (формат, линтер, типы, сборка).
+Поправить формат: `npm run format`.
 
 ## Языки
 
