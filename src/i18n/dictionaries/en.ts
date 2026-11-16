@@ -2,11 +2,16 @@ const en = {
   meta: {
     title: "WebKadr — websites, automation and content for business",
     description:
-      "Family studio from Astana. We build websites and online stores, automate requests and routine work with Telegram bots, and shoot video for social media.",
+      "Web studio. We build websites and online stores, automate requests and routine work with Telegram bots, and shoot video for social media.",
+  },
+  header: {
+    language: "Language",
+    theme: "Switch theme",
   },
   hero: {
     title: "Websites, automation and content for your business",
-    subtitle: "A family studio from Astana. The site is under construction.",
+    subtitle:
+      "A web studio building solutions for business. The site is under construction.",
   },
 };
 
