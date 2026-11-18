@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
+import { Roboto_Flex } from "next/font/google";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { getDictionary } from "@/i18n/getDictionary";
@@ -7,9 +7,10 @@ import { htmlLang, locales, parseLocale } from "@/i18n/locales";
 import { ThemeScript } from "@/theme/ThemeScript";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const robotoFlex = Roboto_Flex({
+  variable: "--font-roboto-flex",
   subsets: ["latin", "cyrillic", "cyrillic-ext"],
+  axes: ["wdth"],
 });
 
 export function generateStaticParams() {
@@ -36,7 +37,7 @@ export default async function RootLayout({
   return (
     <html
       lang={htmlLang[locale]}
-      className={`${geistSans.variable} h-full antialiased`}
+      className={`${robotoFlex.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <head>
