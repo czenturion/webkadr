@@ -4,46 +4,160 @@
 
 :root {
   color-scheme: light;
-  --background: #ffffff;
-  --surface: #f5f5f5;
-  --foreground: #171717;
-  --muted: #5c5c5c;
-  --border: #e5e5e5;
-  --accent: #171717;
-  --accent-foreground: #ffffff;
+  --background: oklch(98.2% 0.006 255);
+  --surface: oklch(95.6% 0.012 258);
+  --surface-2: oklch(92.8% 0.017 260);
+  --foreground: oklch(21% 0.05 264);
+  --foreground-2: oklch(33% 0.06 262);
+  --muted: oklch(47% 0.035 260);
+  --border: oklch(88.5% 0.018 260);
+  --border-strong: oklch(72% 0.03 260);
+  --accent: oklch(47% 0.11 230);
+  --accent-strong: oklch(41% 0.105 232);
+  --accent-foreground: oklch(98.5% 0.006 250);
+  --focus: oklch(50% 0.13 230);
+  --shadow-card: 0 24px 48px -24px oklch(30% 0.05 264 / 0.28);
+  --veil: var(--background);
+  --veil-start: 76%;
+  --veil-mid: 64%;
+  --veil-end: 56%;
+  --veil-flat: 70%;
+  --photo-filter: grayscale(1) contrast(0.92) brightness(1.08);
+  --photo-filter-lead: grayscale(1) contrast(0.95) brightness(0.8);
+  --photo-tint: transparent;
 }
 
 [data-theme="dark"] {
   color-scheme: dark;
-  --background: #0a0a0a;
-  --surface: #171717;
-  --foreground: #ededed;
-  --muted: #a1a1a1;
-  --border: #2e2e2e;
-  --accent: #ededed;
-  --accent-foreground: #0a0a0a;
+  --background: oklch(14% 0.048 264);
+  --surface: oklch(18.5% 0.052 264);
+  --surface-2: oklch(23% 0.055 264);
+  --foreground: oklch(95% 0.016 250);
+  --foreground-2: oklch(88% 0.05 245);
+  --muted: oklch(73% 0.04 256);
+  --border: oklch(29% 0.058 264);
+  --border-strong: oklch(40% 0.06 262);
+  --accent: oklch(80% 0.11 230);
+  --accent-strong: oklch(86% 0.09 230);
+  --accent-foreground: oklch(16% 0.05 264);
+  --focus: oklch(84% 0.12 230);
+  --shadow-card: 0 24px 48px -24px oklch(6% 0.04 264 / 0.7);
+  --veil-start: 93%;
+  --veil-mid: 80%;
+  --veil-end: 66%;
+  --veil-flat: 84%;
+  --photo-filter: grayscale(1) contrast(1.05) brightness(0.8);
+  --photo-filter-lead: var(--photo-filter);
+  --photo-tint: oklch(45% 0.09 255);
 }
 
 @theme inline {
   --color-*: initial;
   --color-background: var(--background);
   --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
   --color-foreground: var(--foreground);
+  --color-foreground-2: var(--foreground-2);
   --color-muted: var(--muted);
   --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
   --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
   --color-accent-foreground: var(--accent-foreground);
-  --font-sans: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  --color-focus: var(--focus);
+  --shadow-card: var(--shadow-card);
+  --font-sans: var(--font-roboto-flex), Arial, Helvetica, sans-serif;
 }
 
 @layer base {
+  html,
+  body {
+    overflow-x: clip;
+  }
+
   body {
     background: var(--background);
     color: var(--foreground);
   }
 
   :focus-visible {
-    outline: 2px solid var(--accent);
+    outline: 2px solid var(--focus);
     outline-offset: 2px;
+  }
+}
+
+@layer components {
+  .hero-veil::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: color-mix(in oklab, var(--veil) var(--veil-flat), transparent);
+  }
+
+  .hero-tile::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: var(--photo-tint);
+    mix-blend-mode: color;
+    pointer-events: none;
+  }
+
+  .hero-tile img {
+    filter: var(--photo-filter);
+  }
+
+  .hero-tile-lead img {
+    filter: var(--photo-filter-lead);
+  }
+
+  @media (width >= 64rem) {
+    .hero-veil::after {
+      background: linear-gradient(
+        90deg,
+        color-mix(in oklab, var(--veil) var(--veil-start), transparent) 0%,
+        color-mix(in oklab, var(--veil) var(--veil-mid), transparent) 45%,
+        color-mix(in oklab, var(--veil) var(--veil-end), transparent) 100%
+      );
+    }
+  }
+
+  .cover-scope {
+    timeline-scope: --cover;
+  }
+
+  .cover-next {
+    view-timeline: --cover block;
+  }
+
+  @supports (animation-timeline: view()) {
+    @media (width >= 64rem) and (prefers-reduced-motion: no-preference) {
+      .cover-fade {
+        animation: cover-fade linear both;
+        animation-timeline: --cover;
+        animation-range: entry 0% entry 100%;
+      }
+    }
+  }
+
+  @keyframes cover-fade {
+    to {
+      opacity: 0.2;
+      transform: scale(0.97);
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .settle {
+      animation: settle 420ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+  }
+
+  @keyframes settle {
+    from {
+      opacity: 0.6;
+    }
   }
 }
