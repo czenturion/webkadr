@@ -38,6 +38,7 @@ export default async function RootLayout({
     <html
       lang={htmlLang[locale]}
       className={`${robotoFlex.variable} h-full antialiased`}
+      data-scroll-behavior="smooth"
       suppressHydrationWarning
     >
       <head>

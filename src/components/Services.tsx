@@ -15,7 +15,7 @@ export function Services({
       <div className="mx-auto w-full max-w-6xl px-6">
         <h2
           id="services-title"
-          className="text-[clamp(2rem,2.5vw+1rem,3.5rem)] leading-[1.06] font-light tracking-[-0.015em] text-balance font-stretch-expanded"
+          className="text-section font-light tracking-[-0.015em] text-balance font-stretch-expanded"
         >
           {dictionary.title}
         </h2>
