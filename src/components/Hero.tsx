@@ -1,4 +1,5 @@
 import type { Dictionary } from "@/i18n/dictionaries/en";
+import { buttonPrimary } from "./button";
 import { HeroCollage } from "./HeroCollage";
 import { HeroMock } from "./HeroMock";
 
@@ -17,13 +18,10 @@ export function Hero({
           <h1 className="min-w-0 text-[clamp(2rem,3.6vw,3.25rem)] leading-[1.06] font-light tracking-[-0.015em] text-balance wrap-break-word font-stretch-expanded">
             {hero.title}
           </h1>
-          <p className="mt-6 max-w-[44ch] text-[clamp(1.125rem,0.35vw+1rem,1.375rem)] leading-[1.45] text-balance">
+          <p className="mt-6 max-w-[44ch] text-lead text-balance">
             {hero.lead}
           </p>
-          <a
-            href="#contacts"
-            className="mt-10 inline-flex min-h-12 items-center justify-center bg-accent px-6 leading-none font-medium whitespace-nowrap text-accent-foreground transition-[background-color,translate] duration-200 ease-out hover:bg-accent-strong focus-visible:outline-offset-3 active:translate-y-px motion-reduce:transition-none motion-reduce:active:translate-y-0"
-          >
+          <a href="#contacts" className={`mt-10 ${buttonPrimary}`}>
             {hero.cta}
           </a>
         </div>
