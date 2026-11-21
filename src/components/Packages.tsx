@@ -1,6 +1,7 @@
 import type { Dictionary } from "@/i18n/dictionaries/en";
-import { htmlLang, type Locale } from "@/i18n/locales";
+import { type Locale, numberFormat } from "@/i18n/locales";
 import { buttonShape } from "./button";
+import { container, sectionLead, sectionTitle } from "./section";
 
 const plans = [
   { id: "site", price: 60_000 },
@@ -10,7 +11,10 @@ const plans = [
 
 const featured = "business";
 
-const card = "group row-span-5 grid grid-rows-subgrid gap-y-6 p-6 sm:p-10";
+const card =
+  "group relative isolate row-span-5 grid grid-rows-subgrid gap-y-6 p-6 after:absolute after:inset-0 after:-z-10 after:opacity-0 after:transition-opacity after:duration-300 after:ease-out motion-reduce:after:transition-none sm:p-10 sm:hover:after:opacity-100 sm:has-[a:focus-visible]:after:opacity-100";
+const cardBase = "bg-surface after:bg-surface-hover";
+const cardFeatured = "bg-surface-2 after:bg-surface-2-hover";
 const cardTitle =
   "text-[1.5625rem] leading-[1.2] font-light font-stretch-expanded";
 const action = `${buttonShape} relative isolate row-start-5 self-end before:absolute before:inset-0 before:-z-10 before:origin-left before:outline-offset-3 before:transition-[scale,background-color] before:duration-300 before:ease-out focus-visible:outline-none focus-visible:before:outline-2 focus-visible:before:outline-focus motion-reduce:before:transition-none max-sm:w-full sm:justify-self-start sm:group-hover:before:scale-x-110 sm:group-has-[a:focus-visible]:before:scale-x-110`;
@@ -47,7 +51,7 @@ export function Packages({
   locale: Locale;
   dictionary: Dictionary["packages"];
 }) {
-  const formatPrice = new Intl.NumberFormat(htmlLang[locale]).format;
+  const formatPrice = numberFormat(locale).format;
   const { builder } = dictionary;
 
   return (
@@ -56,16 +60,11 @@ export function Packages({
       aria-labelledby="packages-title"
       className="relative z-10 bg-background pt-24 pb-36"
     >
-      <div className="mx-auto w-full max-w-6xl px-6">
-        <h2
-          id="packages-title"
-          className="text-section font-light tracking-[-0.015em] text-balance font-stretch-expanded"
-        >
+      <div className={container}>
+        <h2 id="packages-title" className={sectionTitle}>
           {dictionary.title}
         </h2>
-        <p className="mt-4 max-w-176 text-lead text-balance text-muted">
-          {dictionary.lead}
-        </p>
+        <p className={sectionLead}>{dictionary.lead}</p>
 
         <div className="mt-16 grid gap-8 md:grid-cols-2">
           {plans.map(({ id, price }) => {
@@ -77,7 +76,7 @@ export function Packages({
               <article
                 key={id}
                 aria-labelledby={nameId}
-                className={`${card} ${isFeatured ? "bg-surface-2" : "bg-surface"}`}
+                className={`${card} ${isFeatured ? cardFeatured : cardBase}`}
               >
                 <h3 id={nameId} className={cardTitle}>
                   {plan.name}
@@ -110,7 +109,7 @@ export function Packages({
 
           <article
             aria-labelledby="package-builder"
-            className={`${card} bg-surface`}
+            className={`${card} ${cardBase}`}
           >
             <h3 id="package-builder" className={cardTitle}>
               {builder.name}

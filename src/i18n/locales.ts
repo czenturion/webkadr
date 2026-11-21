@@ -12,6 +12,9 @@ export const htmlLang: Record<Locale, string> = {
   kz: "kk",
 };
 
+export const numberFormat = (locale: Locale) =>
+  new Intl.NumberFormat(locale === "en" ? "en-US" : "ru-RU");
+
 export const localeNames: Record<Locale, string> = {
   en: "English",
   ru: "Русский",
