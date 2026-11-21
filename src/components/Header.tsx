@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Dictionary } from "@/i18n/dictionaries/en";
 import type { Locale } from "@/i18n/locales";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import { container } from "./section";
 import { ThemeToggle } from "./ThemeToggle";
 
 export function Header({
@@ -13,7 +14,9 @@ export function Header({
 }) {
   return (
     <header className="border-b border-border">
-      <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-4 px-6">
+      <div
+        className={`${container} flex h-16 items-center justify-between gap-4`}
+      >
         <Link
           href={`/${locale}/`}
           className="text-lg font-semibold tracking-tight"
