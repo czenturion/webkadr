@@ -14,7 +14,7 @@ import {
   maxQuantity,
 } from "./catalog";
 import { type Channel, channelIds, channels, formatContact } from "./contact";
-import { copyAndOpenChat, hasEndpoint, postRequest } from "./send";
+import { botLink, copyAndOpenChat, hasEndpoint, postRequest } from "./send";
 
 type Texts = Dictionary["builder"];
 
@@ -55,6 +55,7 @@ export function Builder({ locale, texts }: { locale: Locale; texts: Texts }) {
   const catalogRef = useRef<HTMLDivElement>(null);
   const summaryRef = useRef<HTMLElement>(null);
   const fieldRef = useRef<HTMLInputElement>(null);
+  const sendingRef = useRef(false);
 
   useEffect(() => {
     const catalog = catalogRef.current;
@@ -80,11 +81,14 @@ export function Builder({ locale, texts }: { locale: Locale; texts: Texts }) {
   const picked = items.filter((item) => selected.has(item.id));
   let once = 0;
   let yearly = 0;
+  let monthly = 0;
   for (const item of picked) {
+    monthly += item.monthly ?? 0;
     if (item.price === null) continue;
     if (item.yearly) yearly += item.price;
     else once += item.price * quantities[item.id];
   }
+  const onRequest = picked.some((item) => item.price === null);
   const contact = formatContact(channel, contacts[channel]);
   const rules = channels[channel];
 
@@ -122,6 +126,8 @@ export function Builder({ locale, texts }: { locale: Locale; texts: Texts }) {
   const message = () => {
     let total = fill(texts.message.total, { p: from(once) });
     if (yearly) total += ` ${fill(texts.message.yearly, { p: money(yearly) })}`;
+    if (monthly)
+      total += ` ${fill(texts.message.monthly, { p: money(monthly) })}`;
 
     return [
       texts.message.hello,
@@ -146,7 +152,7 @@ export function Builder({ locale, texts }: { locale: Locale; texts: Texts }) {
 
   const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (busy) return;
+    if (sendingRef.current) return;
     const website = String(
       new FormData(event.currentTarget).get("website") ?? "",
     );
@@ -168,6 +174,7 @@ export function Builder({ locale, texts }: { locale: Locale; texts: Texts }) {
       return;
     }
 
+    sendingRef.current = true;
     setBusy(true);
     const result = await postRequest({
       lang: htmlLang[locale],
@@ -175,6 +182,7 @@ export function Builder({ locale, texts }: { locale: Locale; texts: Texts }) {
       text,
       website,
     });
+    sendingRef.current = false;
     setBusy(false);
     setStatus(result === "sent" ? texts.done : texts.failed);
   };
@@ -249,6 +257,16 @@ export function Builder({ locale, texts }: { locale: Locale; texts: Texts }) {
                               {desc}
                             </span>
                           </label>
+                          {item.id === "assistant" && (
+                            <a
+                              href={botLink}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="relative z-10 col-span-2 col-start-2 row-start-3 justify-self-start text-sm text-accent underline decoration-1 underline-offset-4 transition-colors duration-200 ease-out hover:text-foreground motion-reduce:transition-none sm:col-span-1 sm:col-start-2 sm:row-start-2"
+                            >
+                              {texts.tryBot}
+                            </a>
+                          )}
                           {item.quantity && (
                             <div
                               role="group"
@@ -287,6 +305,13 @@ export function Builder({ locale, texts }: { locale: Locale; texts: Texts }) {
                             {item.unit && item.unit !== "request" && (
                               <span className="block text-sm text-muted">
                                 {texts.units[item.unit]}
+                              </span>
+                            )}
+                            {item.monthly && (
+                              <span className="block text-sm text-muted">
+                                {fill(texts.plusMonthly, {
+                                  p: money(item.monthly),
+                                })}
                               </span>
                             )}
                           </p>
@@ -347,8 +372,13 @@ export function Builder({ locale, texts }: { locale: Locale; texts: Texts }) {
                   {fill(texts.yearly, { p: money(yearly) })}
                 </p>
               )}
-              {selected.has("support") && (
-                <p className="text-sm text-foreground-2">{texts.supportNote}</p>
+              {monthly > 0 && (
+                <p className="text-sm text-foreground-2">
+                  {fill(texts.monthly, { p: money(monthly) })}
+                </p>
+              )}
+              {onRequest && (
+                <p className="text-sm text-foreground-2">{texts.requestNote}</p>
               )}
             </div>
             <p className="text-sm text-muted">{texts.note}</p>
