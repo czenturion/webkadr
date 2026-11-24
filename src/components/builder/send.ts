@@ -1,5 +1,7 @@
 export const chatLink = "https://t.me/webkadrcom?direct";
 
+export const botLink = "https://t.me/webkadr_zayavki_bot";
+
 const endpoint = process.env.NEXT_PUBLIC_REQUEST_ENDPOINT ?? "";
 
 const copyText = (text: string) => {
@@ -38,6 +40,7 @@ export const postRequest = async (payload: {
   lang: string;
   contact: string;
   text: string;
+  website: string;
 }): Promise<SendResult> => {
   try {
     const response = await fetch(endpoint, {

@@ -32,7 +32,7 @@ const en = {
     },
     automation: {
       title: "Automation",
-      text: "Requests and orders land straight in your messenger.",
+      text: "Requests, replies to customers and routine tasks run without you.",
     },
     content: {
       title: "Content",
@@ -92,7 +92,11 @@ const en = {
   builder: {
     title: "Builder",
     lead: "Tick the services you need and the total adds itself up.",
-    groups: { web: "Web services", content: "Content" },
+    groups: {
+      web: "Web services",
+      automation: "Automation",
+      content: "Content",
+    },
     items: {
       landing: { name: "Landing page", desc: "One page about your business" },
       multi: {
@@ -104,8 +108,16 @@ const en = {
         desc: "Customers pick items and send you the order",
       },
       automation: {
-        name: "Automation",
-        desc: "Requests and orders land in your messenger",
+        name: "Requests to your messenger",
+        desc: "Requests and orders from your site arrive in Telegram right away",
+      },
+      assistant: {
+        name: "AI assistant for your customers",
+        desc: "Answers questions about prices and services around the clock, takes the request and passes it to you",
+      },
+      custom: {
+        name: "Automation for your task",
+        desc: "Customer reminders, collecting reviews, links to spreadsheets and CRM",
       },
       hosting: {
         name: "Domain and hosting",
@@ -137,7 +149,10 @@ const en = {
     emptyEstimate: "Nothing yet: tick services in the list.",
     totalFrom: "Total, from",
     yearly: "Plus {p} per year",
-    supportNote: "Support is priced after the brief",
+    monthly: "Plus {p} per month",
+    plusMonthly: "+ {p} per month",
+    tryBot: "Try it: message our bot",
+    requestNote: "Some services are priced after the brief",
     note: "We confirm the exact price after a short brief.",
     contact: "How should we contact you",
     tgLabel: "Telegram username",
@@ -154,7 +169,8 @@ const en = {
     message: {
       hello: "Hello! I'd like to discuss these services from the WebKadr site:",
       total: "Total: {p} one-time",
-      yearly: "and {p} per year",
+      yearly: "+ {p} per year",
+      monthly: "+ {p} per month",
       contact: "Contact: {c}",
     },
   },
