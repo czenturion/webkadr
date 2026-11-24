@@ -17,6 +17,11 @@ npm run dev
 Перед коммитом: `npm run check` (формат, линтер, типы, сборка).
 Поправить формат: `npm run format`.
 
+## Выкладка
+
+Push в `main` запускает `.github/workflows/deploy.yml`: проверка, сборка, `rsync` папки `out/` на сервер. Ключ на сервере пускает только `rsync` в папку сайта.
+Нужны секреты `DEPLOY_HOST`, `DEPLOY_USER`, `DEPLOY_SSH_KEY`, `DEPLOY_KNOWN_HOSTS` и переменная `REQUEST_ENDPOINT` (адрес приёма заявок, без неё конструктор копирует заявку и открывает Telegram).
+
 ## Языки
 
 Три языка, у каждого свой адрес: `/en/`, `/ru/`, `/kz/`. Без библиотек.
