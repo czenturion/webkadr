@@ -174,6 +174,23 @@ const en = {
       contact: "Contact: {c}",
     },
   },
+  contacts: {
+    title: "Contacts",
+    lead: "We reply within 20 minutes on weekdays, 10:00 to 18:00 Astana time (UTC+5).",
+    dm: {
+      name: "Message us",
+      text: "Direct messages of our Telegram channel. The studio team replies.",
+      action: "Open Telegram",
+    },
+    bot: {
+      name: "Request via our bot",
+      text: "Our AI assistant replies around the clock, suggests a package and passes your request to us.",
+      action: "Message the bot",
+    },
+    channel: "Studio channel",
+    builder: { name: "Builder", text: "Pick services yourself" },
+    place: { name: "City", value: "Astana, Kazakhstan" },
+  },
 };
 
 export type Dictionary = typeof en;

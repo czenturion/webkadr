@@ -1,6 +1,4 @@
-export const chatLink = "https://t.me/webkadrcom?direct";
-
-export const botLink = "https://t.me/webkadr_zayavki_bot";
+import { chatLink } from "@/links";
 
 const endpoint = process.env.NEXT_PUBLIC_REQUEST_ENDPOINT ?? "";
 
@@ -25,7 +23,7 @@ const copyText = (text: string) => {
   return copied;
 };
 
-export type SendResult = "copied" | "copyFailed" | "sent" | "failed";
+type SendResult = "copied" | "copyFailed" | "sent" | "failed";
 
 export const hasEndpoint = endpoint !== "";
 

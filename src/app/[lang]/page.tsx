@@ -1,4 +1,5 @@
 import { Builder } from "@/components/builder/Builder";
+import { Contacts } from "@/components/Contacts";
 import { Hero } from "@/components/Hero";
 import { Packages } from "@/components/Packages";
 import { Services } from "@/components/Services";
@@ -8,7 +9,8 @@ import { parseLocale } from "@/i18n/locales";
 export default async function Home({ params }: PageProps<"/[lang]">) {
   const { lang } = await params;
   const locale = parseLocale(lang);
-  const { hero, mock, services, packages, builder } = getDictionary(locale);
+  const { hero, mock, services, packages, builder, contacts } =
+    getDictionary(locale);
 
   return (
     <main className="cover-scope flex-1">
@@ -16,6 +18,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
       <Services dictionary={services} />
       <Packages locale={locale} dictionary={packages} />
       <Builder locale={locale} texts={builder} />
+      <Contacts dictionary={contacts} />
     </main>
   );
 }
