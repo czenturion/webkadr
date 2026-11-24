@@ -146,6 +146,10 @@ export function Builder({ locale, texts }: { locale: Locale; texts: Texts }) {
 
   const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (busy) return;
+    const website = String(
+      new FormData(event.currentTarget).get("website") ?? "",
+    );
     if (!picked.length) {
       setStatus(texts.empty);
       return;
@@ -165,7 +169,12 @@ export function Builder({ locale, texts }: { locale: Locale; texts: Texts }) {
     }
 
     setBusy(true);
-    const result = await postRequest({ lang: htmlLang[locale], contact, text });
+    const result = await postRequest({
+      lang: htmlLang[locale],
+      contact,
+      text,
+      website,
+    });
     setBusy(false);
     setStatus(result === "sent" ? texts.done : texts.failed);
   };
@@ -411,6 +420,17 @@ export function Builder({ locale, texts }: { locale: Locale; texts: Texts }) {
                     : ""}
                 </p>
               </fieldset>
+              <div aria-hidden="true" className="sr-only">
+                <label htmlFor="builder-website">Website</label>
+                <input
+                  id="builder-website"
+                  name="website"
+                  type="text"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  defaultValue=""
+                />
+              </div>
               <button
                 type="submit"
                 aria-disabled={!picked.length}
