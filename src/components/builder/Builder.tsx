@@ -14,7 +14,8 @@ import {
   maxQuantity,
 } from "./catalog";
 import { type Channel, channelIds, channels, formatContact } from "./contact";
-import { botLink, copyAndOpenChat, hasEndpoint, postRequest } from "./send";
+import { botLink } from "@/links";
+import { copyAndOpenChat, hasEndpoint, postRequest } from "./send";
 
 type Texts = Dictionary["builder"];
 
